@@ -38,14 +38,17 @@
   <div id="count">Clicked 0 times</div>
 
   <script>
-    const button = document.getElementById('clickButton');
-    const countDisplay = document.getElementById('count');
-    let count = 0;
+    // Make sure script runs after elements load
+    window.onload = () => {
+      const button = document.getElementById('clickButton');
+      const countDisplay = document.getElementById('count');
+      let count = 0;
 
-    button.addEventListener('click', () => {
-      count++;
-      countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
-    });
+      button.addEventListener('click', () => {
+        count++;
+        countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
+      });
+    };
   </script>
 
 </body>
