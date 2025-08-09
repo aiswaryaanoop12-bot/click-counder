@@ -3,41 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Click Counter</title>
+  <title>Pink Click Counter</title>
   <style>
-    /* CSS styles here */
+    /* Pink theme styling */
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
+      background: #ffe6f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #a70055;
+      user-select: none;
+    }
+    h1 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 3rem;
+      text-shadow: 1px 1px 3px #d46a91;
     }
     button {
-      font-size: 20px;
-      padding: 10px 20px;
+      background-color: #ff3399;
+      border: none;
+      padding: 18px 40px;
+      border-radius: 30px;
+      font-size: 1.5rem;
+      color: white;
       cursor: pointer;
+      box-shadow: 0 6px 15px rgba(255, 51, 153, 0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+    }
+    button:hover {
+      background-color: #e6007e;
+      box-shadow: 0 8px 20px rgba(230, 0, 126, 0.6);
     }
     #count {
-      margin-top: 20px;
-      font-size: 24px;
+      margin-top: 25px;
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #8b0053;
+      text-shadow: 1px 1px 2px #ffc0da;
     }
   </style>
 </head>
 <body>
 
-  <!-- HTML structure here -->
+  <h1>Click Counter 💖</h1>
   <button id="clickBtn">Click me!</button>
   <div id="count">Clicked 0 times</div>
 
-  <!-- JavaScript logic here -->
   <script>
-    const button = document.getElementById('clickBtn');
-    const countDisplay = document.getElementById('count');
-    let count = 0;
+    // Ensure DOM is loaded before running JS
+    document.addEventListener('DOMContentLoaded', () => {
+      const button = document.getElementById('clickBtn');
+      const countDisplay = document.getElementById('count');
+      let count = 0;
 
-    button.addEventListener('click', () => {
-      count++;
-      countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
+      button.addEventListener('click', () => {
+        count++;
+        countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
+      });
     });
   </script>
+
 </body>
 </html>
