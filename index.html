@@ -5,51 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Click Counter</title>
   <style>
+    /* CSS styles here */
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px;
-      background-color: #f9f9f9;
+      margin-top: 100px;
     }
     button {
       font-size: 20px;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
+      padding: 10px 20px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #0056b3;
     }
     #count {
-      margin-top: 25px;
+      margin-top: 20px;
       font-size: 24px;
-      color: #333;
     }
   </style>
 </head>
 <body>
 
-  <h1>Click Counter</h1>
+  <!-- HTML structure here -->
   <button id="clickBtn">Click me!</button>
   <div id="count">Clicked 0 times</div>
 
+  <!-- JavaScript logic here -->
   <script>
-    // Wait until DOM content is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      const button = document.getElementById('clickBtn');
-      const countDisplay = document.getElementById('count');
-      let count = 0;
+    const button = document.getElementById('clickBtn');
+    const countDisplay = document.getElementById('count');
+    let count = 0;
 
-      button.addEventListener('click', () => {
-        count++;
-        countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
-      });
+    button.addEventListener('click', () => {
+      count++;
+      countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
     });
   </script>
-
 </body>
 </html>
