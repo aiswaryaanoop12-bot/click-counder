@@ -1,72 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pink Click Counter</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Click Counter</title>
   <style>
-    body {
-      background: #ffe6f0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      color: #a70055;
-      user-select: none;
-    }
-    h1 {
-      margin-bottom: 30px;
-      font-weight: 700;
-      font-size: 3rem;
-      text-shadow: 1px 1px 3px #d46a91;
-    }
-    button {
-      background-color: #ff3399;
-      border: none;
-      padding: 18px 40px;
-      border-radius: 30px;
-      font-size: 1.5rem;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(255, 51, 153, 0.4);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      font-weight: 600;
-    }
-    button:hover {
-      background-color: #e6007e;
-      box-shadow: 0 8px 20px rgba(230, 0, 126, 0.6);
-    }
-    #count {
-      margin-top: 25px;
-      font-size: 2rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      color: #8b0053;
-      text-shadow: 1px 1px 2px #ffc0da;
-    }
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box}
+    body{min-height:100vh;display:grid;place-items:center;margin:0;background:linear-gradient(135deg,#071129 0%, #0b2540 100%);font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    .card{width:min(520px,92vw);background:linear-gradient(180deg,var(--card),rgba(255,255,255,0.02));border-radius:18px;padding:28px;box-shadow:0 8px 30px rgba(2,6,23,0.6);color:#e6f0f6}
+    h1{margin:0 0 8px;font-size:20px}
+    p.lead{margin:0 0 18px;color:#9fb7c6}
+    .display{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .count{font-size:56px;font-weight:700;line-height:1;color:var(--accent);letter-spacing:-1px}
+    .controls{display:flex;gap:12px}
+    button{appearance:none;border:0;padding:12px 18px;border-radius:12px;font-weight:600;cursor:pointer}
+    .btn-click{background:linear-gradient(90deg,var(--accent),#0ea5a4);color:#042027;box-shadow:0 6px 18px rgba(3,12,20,0.45);transform:translateY(0);transition:transform .12s ease, box-shadow .12s ease}
+    .btn-click:active{transform:translateY(2px);box-shadow:0 3px 10px rgba(3,12,20,0.35)}
+    .btn-reset{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#cfe8ee}
+    .meta{margin-top:12px;color:#8aa9b6;font-size:13px}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:#7ea0ab;font-size:13px}
+    .pulse{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px rgba(6,182,212,0.5)}
+    @media (max-width:420px){.count{font-size:40px}}
   </style>
 </head>
 <body>
+  <main class="card" role="main">
+    <h1>Click Counter</h1>
+    <p class="lead">A tiny web app that counts how many times you press the button.</p>
 
-  <h1>Click Counter 💖</h1>
-  <button id="clickBtn">Click me!</button>
-  <div id="count">Clicked 0 times</div>
+    <div class="display" aria-live="polite">
+      <div>
+        <div class="count" id="count">0</div>
+        <div class="meta">Total clicks</div>
+      </div>
+      <div class="controls">
+        <button id="clickBtn" class="btn-click" aria-pressed="false">Click me</button>
+        <button id="resetBtn" class="btn-reset">Reset</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div><span class="pulse" aria-hidden="true"></span> Live counter</div>
+      <div style="font-size:12px;opacity:.9">Built with plain HTML/CSS/JS</div>
+    </div>
+  </main>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const button = document.getElementById('clickBtn');
-      const countDisplay = document.getElementById('count');
-      let count = 0;
+    (function(){
+      const btn = document.getElementById('clickBtn');
+      const reset = document.getElementById('resetBtn');
+      const display = document.getElementById('count');
+      // Get previous count from localStorage
+      let count = Number(localStorage.getItem('clickCounter') || 0);
+      display.textContent = count;
 
-      button.addEventListener('click', () => {
+      function update(n){
+        display.textContent = n;
+        localStorage.setItem('clickCounter', String(n));
+      }
+
+      btn.addEventListener('click', ()=>{
         count++;
-        countDisplay.textContent = Clicked ${count} ${count === 1 ? 'time' : 'times'};
+        update(count);
+        // Button click animation
+        btn.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(0.96)' },
+          { transform: 'scale(1)' }
+        ], { duration: 120, easing: 'ease-out' });
       });
-    });
-  </script>
 
+      reset.addEventListener('click', ()=>{
+        if(!confirm('Reset the counter to zero?')) return;
+        count = 0; update(count);
+      });
+
+      btn.addEventListener('keydown', (e)=>{
+        if(e.key === ' ' || e.key === 'Enter'){
+          e.preventDefault(); btn.click();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
